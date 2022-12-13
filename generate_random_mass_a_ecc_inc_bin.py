@@ -3,7 +3,7 @@ import reboundx
 import numpy as np
 import os
 for j in range(10):
-    filename = "3jupiters{}.bin".format(j)
+    filename = "ma_log_ei_rayleigh{}.bin".format(j)
 
     # Create a rebound simulation
     sim = rebound.Simulation()
@@ -14,14 +14,17 @@ for j in range(10):
     # Add a particle at the origin with sun mass 1 and 3 jupiter like planet
     sim.add(m=1., hash= 'Sun like')
 
-    # Based on https://arxiv.org/pdf/0801.1368.pdf
-    sim.add(primary=sim.particles[0], m=1e-3, a=5., e=0.002, inc=0.5 * np.pi / 180,
+    # Based on https://arxiv.org/pdf/astro-ph/0703160.pdf
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+            e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=1)
-    sim.add(primary=sim.particles[0], m=1e-3, a=7.25, e=0.002, inc=1.0 * np.pi / 180,
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+            e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=2)
-    sim.add(primary=sim.particles[0], m=1e-3, a=9.5, e=0.002, inc=1.5 * np.pi / 180,
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+            e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=3)
 
