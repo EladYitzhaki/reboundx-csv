@@ -2,6 +2,10 @@ import rebound
 import reboundx
 import numpy as np
 import os
+
+def lognuniform(low=0, high=1, size=None, base=np.e):
+    return np.power(base, np.random.uniform(low, high, size))
+
 for j in range(10):
     filename = "ma_log_ei_rayleigh{}.bin".format(j)
 
@@ -15,15 +19,15 @@ for j in range(10):
     sim.add(m=1., hash= 'Sun like')
 
     # Based on https://arxiv.org/pdf/astro-ph/0703160.pdf
-    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10),
             e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=1)
-    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10),
             e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=2)
-    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10).,
+    sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10),
             e=np.random.rayleigh(0.1, None), inc=np.random.rayleigh(3, None),
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=3)
