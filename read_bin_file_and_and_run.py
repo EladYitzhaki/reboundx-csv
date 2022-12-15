@@ -5,14 +5,14 @@ import os
 import sys
 import csv
 from rebound import hash as h
-full_filename = sys.argv[1]
+
+full_filename = sys.argv[1] # rebound bin file
 filename = os.path.splitext(full_filename)[0]
-# input("a bin file of rebound:")
 
 filename1 = "{0}.cart.csv".format(filename)
 filename2 = "{0}.orb.csv".format(filename)
 filename3 = "{0}.coll.csv".format(filename)
-filename4 = "{0}.ejection.csv".format(filename)
+filename4 = "{0}.eject.csv".format(filename)
 
 header = ["time"]
 header.append("mass1")
@@ -101,15 +101,11 @@ sim = rebound.Simulation(full_filename)
 # Fixing units of G so all in AU SolarMass and year
 sim.G = 4*np.pi**2
 
-## Add a particle at the origin with sun mass 1 and 3 jupiter like planet
-# sim.add(m=1., hash='Sun like')
-# sim.add(primary=sim.particles[0], m=1e-3, a=6, e=0.05, inc=0.5 * np.pi / 180, Omega=0.1, omega=0.1, f=0.1, hash=1)
-# sim.add(primary=sim.particles[0], m=1e-3, a=7, e=0.1, inc=1.0 * np.pi / 180, Omega=0.1, omega=0.1, f=0.1, hash=2)
-# sim.add(primary=sim.particles[0], m=1e-3, a=8, e=0.15, inc=1.5 * np.pi / 180, Omega=0.1, omega=0.1, f=0.1, hash=3)
 
+sim.integrator = "ias15"
 # MERCURY like hybrid integrator
-sim.integrator = "mercurius"
-sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
+# sim.integrator = "mercurius"
+# sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
 
 # Move all particles to the-center-of-momentum frame.
 sim.move_to_com()
@@ -117,8 +113,6 @@ sim.move_to_com()
 # Collision
 sim.collision = "direct"
 sim.collision_resolve = collision_merge_then_print
-
-# sim.collision_resolve = "merge"
 
 # Ejection inside the iteretions
 orbs = sim.calculate_orbits(primary=sim.particles[0])
@@ -140,7 +134,6 @@ ps[0].r = np.power((3/(4*np.pi)*ps[0].m/rho_sun), 1/3)
 for i in range(len(orbs)):
     p = orbs[i]
     ps[i+1].r = np.power((3/(4*np.pi)*ps[i+1].m/rho_gas), 1/3)
-
 
 # Integrate for 10My and save every 100y
 # write to csv file separated colloums

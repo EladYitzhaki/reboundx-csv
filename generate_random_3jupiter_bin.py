@@ -46,4 +46,4 @@ for j in range(10):
     sim.automateSimulationArchive(filename, interval=1, deletefile=True)
     sim.integrate(0)
 
-    for o in sim.calculate_orbits(primary=sim.particles[0]): print(o)
+    # for o in sim.calculate_orbits(primary=sim.particles[0]): print(o)

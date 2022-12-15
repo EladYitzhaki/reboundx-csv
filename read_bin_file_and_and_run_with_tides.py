@@ -12,7 +12,7 @@ filename = os.path.splitext(full_filename)[0]
 filename1 = "{0}.tides.cart.csv".format(filename)
 filename2 = "{0}.tides.orb.csv".format(filename)
 filename3 = "{0}.tides.coll.csv".format(filename)
-filename4 = "{0}.tides.ejection.csv".format(filename)
+filename4 = "{0}.tides.eject.csv".format(filename)
 
 header = ["time"]
 header.append("mass1")
@@ -101,9 +101,10 @@ sim = rebound.Simulation(full_filename)
 # Fixing units of G so all in AU SolarMass and year
 sim.G = 4*np.pi**2
 
+sim.integrator = "ias15"
 # MERCURY like hybrid integrator
-sim.integrator = "mercurius"
-sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
+# sim.integrator = "mercurius"
+# sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
 
 # Move all particles to the-center-of-momentum frame.
 sim.move_to_com()
@@ -138,7 +139,7 @@ for i in range(len(orbs)):
     p = orbs[i]
     ps[i+1].r = np.power((3/(4*np.pi)*ps[i+1].m/rho_gas), 1/3)
     ps[i+1].params["tctl_k2"] = 0.03
-    ps[i+1].params["tctl_tau"] = 2 * np.power(ps[i+1].r, 3) / (sim.G * ps[i+1].m * 15.5)
+    ps[i+1].params["tctl_tau"] = 2.1e-8 # from the paper of hila
     print(ps[i+1].params["tctl_tau"])
 
 # Integrate for 10My and save every 100y
@@ -254,3 +255,5 @@ for i in range(10000):
     with open(filename2, 'a') as file:
         writer = csv.writer(file)
         writer.writerow(list_at_time)
+
+    # for o in sim.calculate_orbits(primary=sim.particles[0]): print(o)
