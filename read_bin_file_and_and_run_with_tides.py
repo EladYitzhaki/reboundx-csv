@@ -140,7 +140,7 @@ for i in range(len(orbs)):
     ps[i+1].r = np.power((3/(4*np.pi)*ps[i+1].m/rho_gas), 1/3)
     ps[i+1].params["tctl_k2"] = 0.03
     ps[i+1].params["tctl_tau"] = 2.1e-8 # from the paper of hila
-    print(ps[i+1].params["tctl_tau"])
+    # print(ps[i+1].params["tctl_tau"])
 
 # Integrate for 10My and save every 100y
 # write to csv file separated colloums
@@ -176,6 +176,7 @@ with open(filename2, 'w') as file:
 
 header = ["time"]
 header.append("mass")
+header.append("distance")
 header.append("hash")
 header.append("pxs")
 header.append("pys")
@@ -206,6 +207,7 @@ for i in range(10000):
                 # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
                 list_at_time = [sim.t]
                 list_at_time.append(p1.m)
+                list_at_time.append(distance)
                 list_at_time.append(p1.hash)
                 list_at_time.append(p1.x)
                 list_at_time.append(p1.y)

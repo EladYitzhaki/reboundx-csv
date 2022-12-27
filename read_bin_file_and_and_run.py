@@ -9,6 +9,7 @@ from rebound import hash as h
 full_filename = sys.argv[1] # rebound bin file
 filename = os.path.splitext(full_filename)[0]
 
+# output 1: cartisian coordinates, 2: orbital elements, 3: collisions, 4:ejection.
 filename1 = "{0}.cart.csv".format(filename)
 filename2 = "{0}.orb.csv".format(filename)
 filename3 = "{0}.coll.csv".format(filename)
@@ -169,6 +170,7 @@ with open(filename2, 'w') as file:
 
 header = ["time"]
 header.append("mass")
+header.append("distance")
 header.append("hash")
 header.append("pxs")
 header.append("pys")
@@ -199,6 +201,7 @@ for i in range(10000):
                 # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
                 list_at_time = [sim.t]
                 list_at_time.append(p1.m)
+                list_at_time.append(distance)
                 list_at_time.append(p1.hash)
                 list_at_time.append(p1.x)
                 list_at_time.append(p1.y)
