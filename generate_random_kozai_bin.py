@@ -3,7 +3,7 @@ import reboundx
 import numpy as np
 import os
 for j in range(10):
-    filename = "3jupiters{}.bin".format(j)
+    filename = "kozai{}.bin".format(j)
 
     # Create a rebound simulation
     sim = rebound.Simulation()
