@@ -2,9 +2,13 @@ import rebound
 import reboundx
 import numpy as np
 import os
-for j in range(10):
-    filename = "3jupiters{}.bin".format(j)
 
+name = "3jupiters"
+
+bins = []
+for j in range(10):
+    filename = "{0}_{1}.bin".format(name, j)
+    bins.append(filename)
     # Create a rebound simulation
     sim = rebound.Simulation()
 
@@ -47,3 +51,8 @@ for j in range(10):
     sim.integrate(0)
 
     # for o in sim.calculate_orbits(primary=sim.particles[0]): print(o)
+
+with open('{0}_bin_files.txt'.format(name), 'w') as f:
+    for bin in bins:
+        f.write(bin)
+        f.write('\n')
