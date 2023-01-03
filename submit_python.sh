@@ -6,7 +6,7 @@
 #SBATCH --partition=ph_hagai
 
 ###SBATCH --nodes=1              # Number of nodes
-#SBATCH --ntasks=1             # Number of MPI ranks (spus)
+#SBATCH --ntasks=10             # Number of MPI ranks (spus)
 ###SBATCH --ntasks-per-node=96 # Number of MPI ranks (cpus) per node
 ###SBATCH --ntasks-per-socket=1  # Number of tasks per processor socket on the node
 #SBATCH --cpus-per-task=2      # Number of OpenMP threads for each MPI process/rank
