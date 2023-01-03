@@ -22,7 +22,7 @@
 ###SBATCH --mem-per-cpu=40G
 source /usr/local/ph_hagai/anaconda3/bin/activate rebound-env
 
-export PYTHONFILE="read_bin_file_and_and_run.py"
-export BINFILE="3jupiters0.bin"
+export PYTHONFILE="run_paralel.py"
+export BINFILE="3jupiters_bin_files.txt"
 
-python $PYTHONFILE BINFILE
+python $PYTHONFILE $BINFILE
