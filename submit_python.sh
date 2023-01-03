@@ -23,6 +23,6 @@
 source /usr/local/ph_hagai/anaconda3/bin/activate rebound-env
 
 export PYTHONFILE="run_paralel.py"
-export BINFILE="3jupiters_bin_files.txt"
+export BINFILES="3jupiters_bin_files.txt"
 
-python $PYTHONFILE $BINFILE
+python $PYTHONFILE $BINFILES
