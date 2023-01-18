@@ -185,7 +185,7 @@ with open(filename4, 'w') as file:
     writer.writerow(header)
 
 ## Integrate for 100 time units
-for i in range(10000):
+for i in range(100001):
     sim.integrate(i*100.)
 
     # Will eject only one at a time
