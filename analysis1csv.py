@@ -26,7 +26,7 @@ if parameter == 'm':
     planet = 0
     for element in range(len(df.columns)):
         num = (element - 1)
-        if num % 6 == 0:
+        if num % 8 == 0:
             with open(filename5, 'a') as file:
                 writer = csv.writer(file)
                 data_point = [df.iat[line_number, element]]
