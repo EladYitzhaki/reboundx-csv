@@ -4,7 +4,6 @@ import numpy as np
 import os
 import sys
 import csv
-from rebound import hash as h
 
 full_filename = sys.argv[1] # rebound bin file
 filename = os.path.splitext(full_filename)[0]
@@ -104,7 +103,9 @@ sim.G = 4*np.pi**2
 
 
 sim.integrator = "ias15"
-# MERCURY like hybrid integrator
+# MERCURY like hybrid integrator.
+# If you using it you must make sure, that you do convergence tests as explains by Rein in
+# https://www.youtube.com/watch?v=QW5a-iH62dQ&ab_channel=REBOUNDYoutubeTutorials.
 # sim.integrator = "mercurius"
 # sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
 
@@ -187,17 +188,19 @@ with open(filename4, 'w') as file:
 for i in range(10000):
     sim.integrate(i*100.)
 
+    # Will eject only one at a time
+    eject = 0
     # Ejection
     orbs = sim.calculate_orbits(primary=sim.particles[0])
     for i in range(len(orbs)):
         p = orbs[i]
-        if p.a < 0:
+        if p.a < 0 and eject == 0:
             # print("particle {} is unbound".format(i + 1))
             p0 = sim.particles[0]
             p1 = sim.particles[i + 1]
             dp = p0 - p1  # Calculates the coponentwise difference between particles
             distance = np.sqrt(dp.x * dp.x + dp.y * dp.y + dp.z * dp.z)
-            if distance > 300:
+            if distance > 1000:
                 # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
                 list_at_time = [sim.t]
                 list_at_time.append(p1.m)
@@ -217,6 +220,7 @@ for i in range(10000):
                 # to do eject look at the example in API
                 sim.remove(i+1)
                 sim.move_to_com()
+                eject = 1
             # else:
                 # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
 
@@ -251,3 +255,7 @@ for i in range(10000):
     with open(filename2, 'a') as file:
         writer = csv.writer(file)
         writer.writerow(list_at_time)
+
+filename5 = "{0}.time{1}.bin".format(filename, sim.t)
+sim.automateSimulationArchive(filename5, interval=1, deletefile=True)
+sim.integrate(0)
