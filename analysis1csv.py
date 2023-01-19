@@ -19,6 +19,9 @@ filename2 = "{0}.orb.csv".format(filename0)
 # #num of rows (len(df)) without header
 # #num of cols (len(df.columns))
 
+if line_number == '-1':
+    line_number = (len(df))
+
 filename5 = "output.{0}.time{1}.csv".format(parameter,line_number*100)
 
 if parameter == 'm':
