@@ -14,3 +14,4 @@ python3 read_bin_file_and_run.py 3jupiters0.bin
 
 The output is to csv files: cartision coordinate of all bodies, orbital elements- not for the main star, collision, ejection. cart,orb,coll,eject.
 
+using python3 with pakeges: rebound reboundx numpy pandas
