@@ -6,7 +6,7 @@
 #SBATCH --partition=ph_hagai
 
 ###SBATCH --nodes=1              # Number of nodes
-#SBATCH --ntasks=10             # Number of MPI ranks (spus)
+#SBATCH --ntasks=96             # Number of MPI ranks (spus)
 ###SBATCH --ntasks-per-node=96 # Number of MPI ranks (cpus) per node
 ###SBATCH --ntasks-per-socket=1  # Number of tasks per processor socket on the node
 #SBATCH --cpus-per-task=2      # Number of OpenMP threads for each MPI process/rank
@@ -23,6 +23,7 @@
 source /usr/local/ph_hagai/anaconda3/bin/activate rebound-env
 
 export PYTHONFILE="run_paralel.py"
-export BINFILES="3jupiters_bin_files.txt"
+export BINFILE="3jupiters_bin_files.txt"
+export OPENBLAS_NUM_THREADS=1
 
-python $PYTHONFILE $BINFILES
+python $PYTHONFILE $BINFILE

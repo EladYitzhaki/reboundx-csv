@@ -4,6 +4,7 @@ import numpy as np
 import os
 import sys
 import csv
+from rebound import hash as h
 
 full_filename = sys.argv[1] # rebound bin file
 filename = os.path.splitext(full_filename)[0]
@@ -53,7 +54,7 @@ def collision_merge_then_print(sim_pointer, collision):
 
     list_at_time = [sim.t]
     list_at_time.append(p1.m)
-    list_at_time.append(p1.hash)
+    list_at_time.append(p1.hash.value)
     list_at_time.append(p1.x)
     list_at_time.append(p1.y)
     list_at_time.append(p1.z)
@@ -62,7 +63,7 @@ def collision_merge_then_print(sim_pointer, collision):
     list_at_time.append(p1.vz)
 
     list_at_time.append(p2.m)
-    list_at_time.append(p2.hash)
+    list_at_time.append(p2.hash.value)
     list_at_time.append(p2.x)
     list_at_time.append(p2.y)
     list_at_time.append(p2.z)
@@ -81,7 +82,7 @@ def collision_merge_then_print(sim_pointer, collision):
     p1.r = np.power(p1.r * p1.r * p1.r + p2.r * p2.r * p2.r, 1 / 3)
 
     list_at_time.append(p1.m)
-    list_at_time.append(p1.hash)
+    list_at_time.append(p1.hash.value)
     list_at_time.append(p1.x)
     list_at_time.append(p1.y)
     list_at_time.append(p1.z)
@@ -103,9 +104,7 @@ sim.G = 4*np.pi**2
 
 
 sim.integrator = "ias15"
-# MERCURY like hybrid integrator.
-# If you using it you must make sure, that you do convergence tests as explains by Rein in
-# https://www.youtube.com/watch?v=QW5a-iH62dQ&ab_channel=REBOUNDYoutubeTutorials.
+# MERCURY like hybrid integrator
 # sim.integrator = "mercurius"
 # sim.dt = sim.particles[1].P * 0.002  # Timestep a small fraction of innermost planet's period
 
@@ -184,8 +183,8 @@ with open(filename4, 'w') as file:
     writer = csv.writer(file)
     writer.writerow(header)
 
-## Integrate for 100 time units
-for i in range(100001):
+## Integrate for 100My time units
+for i in range(10001):
     sim.integrate(i*100.)
 
     # Will eject only one at a time
@@ -205,7 +204,7 @@ for i in range(100001):
                 list_at_time = [sim.t]
                 list_at_time.append(p1.m)
                 list_at_time.append(distance)
-                list_at_time.append(p1.hash)
+                list_at_time.append(p1.hash.value)
                 list_at_time.append(p1.x)
                 list_at_time.append(p1.y)
                 list_at_time.append(p1.z)
@@ -220,7 +219,6 @@ for i in range(100001):
                 # to do eject look at the example in API
                 sim.remove(i+1)
                 sim.move_to_com()
-                eject = 1
             # else:
                 # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
 
@@ -231,7 +229,7 @@ for i in range(100001):
     list_at_time = [time]
     for p in pp:
         list_at_time.append(p.m)
-        list_at_time.append(p.hash)
+        list_at_time.append(p.hash.value)
         list_at_time.append(p.x)
         list_at_time.append(p.y)
         list_at_time.append(p.z)
@@ -255,7 +253,7 @@ for i in range(100001):
     with open(filename2, 'a') as file:
         writer = csv.writer(file)
         writer.writerow(list_at_time)
-
+        
 filename5 = "{0}.time{1}.bin".format(filename, sim.t)
 sim.automateSimulationArchive(filename5, interval=1, deletefile=True)
 sim.integrate(0)

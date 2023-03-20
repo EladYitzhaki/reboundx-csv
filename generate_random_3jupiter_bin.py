@@ -6,7 +6,7 @@ import os
 name = "3jupiters"
 
 bins = []
-for j in range(10):
+for j in range(96):
     filename = "{0}_{1}.bin".format(name, j)
     bins.append(filename)
     # Create a rebound simulation
