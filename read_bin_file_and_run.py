@@ -228,14 +228,14 @@ for i in range(1000001):
 
     list_at_time = [time]
     for p in pp:
-        list_at_time.append(p.m)
+        list_at_time.append(round(p.m,5))
         list_at_time.append(p.hash.value)
-        list_at_time.append(p.x)
-        list_at_time.append(p.y)
-        list_at_time.append(p.z)
-        list_at_time.append(p.vx)
-        list_at_time.append(p.vy)
-        list_at_time.append(p.vz)
+        list_at_time.append(round(p.x,5))
+        list_at_time.append(round(p.y,5))
+        list_at_time.append(round(p.z,5))
+        list_at_time.append(round(p.vx,5))
+        list_at_time.append(round(p.vy,5))
+        list_at_time.append(round(p.vz,5))
 
     with open(filename1, 'a') as file:
         writer = csv.writer(file)
@@ -243,12 +243,12 @@ for i in range(1000001):
 
     list_at_time = [time]
     for o in orbs:
-        list_at_time.append(o.a)
-        list_at_time.append(o.e)
-        list_at_time.append(o.inc)
-        list_at_time.append(o.Omega)
-        list_at_time.append(o.omega)
-        list_at_time.append(o.f)
+        list_at_time.append(round(o.a,5))
+        list_at_time.append(round(o.e,5))
+        list_at_time.append(round(o.inc,5))
+        list_at_time.append(round(o.Omega,5))
+        list_at_time.append(round(o.omega,5))
+        list_at_time.append(round(o.f,5))
 
     with open(filename2, 'a') as file:
         writer = csv.writer(file)
