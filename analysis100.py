@@ -7,7 +7,7 @@ import subprocess
 import csv
 
 # run with:  python3 analysis100.py ###_bin_files.txt ##15 ##a
-# print('100')
+print('100')
 full_filename = sys.argv[1] # txt file with rebound bin file names
 line_number = sys.argv[2]
 parameter = sys.argv[3]
@@ -32,7 +32,7 @@ with open(filename5, 'a') as file:
         writer.writerow(header)
     if parameter == 'aei':
         writer = csv.writer(file)
-        header = ["a","e","inc"]
+        header = ["a","e","inc","pericenter"]
         writer.writerow(header)
 
 with open(full_filename,'r') as f:
