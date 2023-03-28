@@ -103,6 +103,8 @@ with open(filename5, 'a') as file:
                 data_row.append(data_point2)
                 data_point3 = df.iat[line_number, element+2]
                 data_row.append(data_point3)
+                pericenter = data_point1*(1-data_point2)
+                data_row.append(pericenter)        
                 writer = csv.writer(file)
                 writer.writerow(data_row)
         del df
