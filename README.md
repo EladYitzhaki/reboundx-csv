@@ -14,4 +14,8 @@ python3 read_bin_file_and_run.py 3jupiters0.bin
 
 The output is to csv files: cartision coordinate of all bodies, orbital elements- not for the main star, collision, ejection. cart,orb,coll,eject.
 
-using python3 with pakeges: rebound reboundx numpy pandas
+Using python3 with pakeges: rebound reboundx numpy pandas
+
+The code used to simulate solar like systems, for 10Myrs evolosion dominated by plant plant scattering.
+Radius of bodies are assumed from those of the sun and jupiter.
+Collision are resolved as merge that conserved mass momentom and volume, ejection are made by cheaking every 100 years if one of the plants is unbound and far away from the main body at least 300AU, and if so there will be only one ejection at that time.
