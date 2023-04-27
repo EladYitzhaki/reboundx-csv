@@ -222,6 +222,7 @@ for ik in range(1000001):
                 # to do eject look at the example in API
                 sim.remove(jj + 1)
                 sim.move_to_com()
+                eject = 1
             # else:
             # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
 
