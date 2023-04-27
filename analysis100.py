@@ -38,20 +38,20 @@ with open(filename5, 'a') as file:
 with open(full_filename,'r') as f:
     bins = f.read().splitlines()
 f.close()
-# for bin in bins:
-#     #print(bin)
-#     command = 'python3 analysis1csv.py ' + bin + ' ' + line_number + ' ' + parameter + '&'
-#     #command = 'python analysis1csv.py ' + bin + ' ' + line_number + ' ' + parameter + '&'
-#     os.system(command)
-#     print('ok')
-# print('2')
-
-popenid = []
 for bin in bins:
     #print(bin)
-    command = ['python3', './analysis1csv.py', bin, line_number, parameter]
-    # command = ['/usr/bin/python3', '--version']
-    pp = subprocess.Popen(command)
-    popenid.append(pp)
-for pp in popenid:
-	pp.wait()
+    command = 'python3 analysis1csv.py ' + bin + ' ' + line_number + ' ' + parameter + '&'
+    #command = 'python analysis1csv.py ' + bin + ' ' + line_number + ' ' + parameter + '&'
+    os.system(command)
+    #print('ok')
+print('2')
+#
+# popenid = []
+# for bin in bins:
+#     #print(bin)
+#     command = ['python3', './analysis1csv.py', bin, line_number, parameter]
+#     # command = ['/usr/bin/python3', '--version']
+#     pp = subprocess.Popen(command)
+#     popenid.append(pp)
+# for pp in popenid:
+# 	pp.wait()
