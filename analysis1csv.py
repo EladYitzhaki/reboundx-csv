@@ -115,10 +115,10 @@ with open(filename5, 'a') as file:
             except OSError:
                 f.seek(0)
             last_line = f.readline().decode().split(',')
-
+            time = last_line[0]
             planet = 0
             for element in range(len(last_line)):
-                data_row = []
+                data_row = [time]
                 num = (element - 1)
                 if num % 6 == 0:
                     data_point1 = last_line[element]
