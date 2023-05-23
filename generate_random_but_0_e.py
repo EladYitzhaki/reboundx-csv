@@ -23,7 +23,7 @@ for j in range(10):
 
     # Based on https://arxiv.org/pdf/astro-ph/0703160.pdf
     sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10),
-            e=0.0001, inc=np.random.rayleigh(0.05*np.pi/180, None),
+            e=0.0001, inc=np.random.rayleigh(0.05*np.pi/180, None),     # inc=np.random.rayleigh(0.05, None)*np.pi/180
             Omega=np.random.uniform(0, 2 * np.pi), omega=np.random.uniform(0, 2. * np.pi),
             f=np.random.uniform(0, 2 * np.pi), hash=1)
     sim.add(primary=sim.particles[0], m=lognuniform(-1,1,None,10), a=lognuniform(-1,2,None,10),
