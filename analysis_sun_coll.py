@@ -23,7 +23,7 @@ filename4 = "{0}.eject.csv".format(filename0)
 #     last_line = next(f)
 # print(last_line)
 
-filename5 = "output.sun.coll.csv"
+filename5 = "output.sun.coll_v2.csv"
 # coll
 with open(filename3, 'r') as f:
     mycsv = csv.reader(f)
@@ -37,12 +37,13 @@ with open(filename3, 'r') as f:
         hash2= row[2+8]
 
         coll= [time, m1, m2, m3]
-
+        hash_coll= -2
+        planet_coll_num= -10
         if float(m3) >= 1:
             if float(m2) < 1:
-                hash_coll= hash2
+                hash_coll= int(hash2)
             else:
-                hash_coll= hash1
+                hash_coll= int(hash1)
 
             sun_coll = []
             time_before = int(np.floor(float(time)/100))
@@ -50,20 +51,20 @@ with open(filename3, 'r') as f:
             # find who collided with sun
             data_frame= pd.read_csv(filename1)
             for element in range(len(data_frame.columns)):
-                num = (element - 1)
-                if num % 8 == 2:
-                    hash_cand = float(df.iat[time_before, element])
-                if hash_cand == hash_coll
-                    planet_coll_num = np.floor(element/8)
+                num = (element - 2)
+                if num % 8 == 0:
+                    hash_cand = int(data_frame.iat[time_before, element])
 
+                    if hash_cand == hash_coll:
+                        planet_coll_num = int(np.floor(num/8))
             del data_frame
 
             df = pd.read_csv(filename2)
 
-            a = float(df.iat[time_before, 1 + 6*planet_coll_num])
-            e = float(df.iat[time_before, 2+6*planet_coll_num])
-            inc = float(df.iat[time_before, 3+6*planet_coll_num])
-            Omega = float(df.iat[time_before, 4+6*planet_coll_num])
+            a = float(df.iat[time_before, 1 + 6*(planet_coll_num-1)])
+            e = float(df.iat[time_before, 2+6*(planet_coll_num-1)])
+            inc = float(df.iat[time_before, 3+6*(planet_coll_num-1)])
+            Omega = float(df.iat[time_before, 4+6*(planet_coll_num-1)])
             sun_coll =[a, e, inc]
 
             # a1 = float(df.iat[time_before, 1])
@@ -109,12 +110,3 @@ with open(filename3, 'r') as f:
 #     last_line= lines[-1]
 #     print(last_line)
 f.close()
-
-#
-# if parameter == 'coll':
-#     df = pd.read_csv(filename3)
-#     time =
-#     del df
-# if parameter == 'eject':
-#     df = pd.read_csv(filename4)
-#     del df
