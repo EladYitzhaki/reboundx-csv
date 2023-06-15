@@ -8,6 +8,8 @@ import sys
 full_filename = sys.argv[1] # bin file
 filename0 = os.path.splitext(full_filename)[0]
 print(filename0)
+file_number = filename0.split("_")[1]
+print(file_number)
 filename1 = "{0}.cart.csv".format(filename0)
 filename2 = "{0}.orb.csv".format(filename0)
 filename3 = "{0}.coll.csv".format(filename0)
@@ -20,6 +22,9 @@ filename4 = "{0}.eject.csv".format(filename0)
 # print(last_line)
 
 filename5 = "output.coll.eject.csv"
+filename6 = "output.coll.csv"
+filename7 = "output.eject.csv"
+
 # coll
 with open(filename3, 'r') as f:
     mycsv = csv.reader(f)
@@ -29,7 +34,12 @@ with open(filename3, 'r') as f:
         m1 = row[1]
         m2 = row[1+8]
         m3 = row[1+16]
-        coll= [time, m1, m2, m3]
+        coll= [time, m1, m2, m3,file_number]
+        with open(filename6, 'a') as file:
+            writer = csv.writer(file)
+            writer.writerow(coll)
+            print(coll)
+    
 # eject
 with open(filename4, 'r') as f:
     mycsv = csv.reader(f)
@@ -37,13 +47,18 @@ with open(filename4, 'r') as f:
     for row in mycsv:
         time = row[0]
         m1 = row[1]
-        eject= [time, m1]
-with open(filename5, 'a') as file:
-    writer = csv.writer(file)
-    writer.writerow(coll)
-    writer.writerow(eject)
+        eject= [time, m1,file_number]
+        print(eject)
 
-
+        with open(filename7, 'a') as file:
+            writer = csv.writer(file)
+            writer.writerow(eject)
+#     
+# with open(filename5, 'a') as file:
+#     writer = csv.writer(file)
+#     writer.writerow(coll)
+#     writer.writerow(eject)
+# 
 # with open(filename1, 'rb') as f:
 #     mycsv = csv.reader(f)
 #     mycsv = list(mycsv)
