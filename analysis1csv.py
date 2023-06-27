@@ -134,23 +134,23 @@ with open(filename5, 'a') as file:
             for planet in planets:
                 print(planet[0])
             # sorting the planets array by the semi major axis
-            planets= sorted(planets, key=lambda planet: planet[0]) #reverse=True
+            sorted_planets= sorted(planets, key=lambda orbital_elements: float(orbital_elements[0])) #reverse=True
             # print(planets)
 
             print('N' , N)
-            for planet in planets:
+            for planet in sorted_planets:
                 print(planet[0])
 
-            if N !=0:
-                new_last_line= [planets[0:N]]
+            if N >0:
+                new_last_line= [sorted_planets[0:N]]
                 new_last_line= sum(new_last_line,[])
 
             # print(new_last_line)
             #flat_list = list(np.concatenate(new_last_line).flat)
-            last_line = sum(new_last_line, [time])
+                last_line = sum(new_last_line, [time])
             # print(last_line)
 
-            filename6 = "output.{1}p.time{0}.V2.csv".format(line_number * 100,N)
+            filename6 = "output.{1}p.time{0}.V4.csv".format(line_number * 100,N)
 
             # planet = 0
             # # print(len(last_line))
