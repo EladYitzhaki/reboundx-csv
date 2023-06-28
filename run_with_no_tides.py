@@ -50,8 +50,16 @@ with open(filename3, 'w') as file:
 
 def collision_merge_then_print(sim_pointer, collision):
     sim = sim_pointer.contents  # get simulation object from pointer
-    p1 = sim.particles[collision.p1]
-    p2 = sim.particles[collision.p2]
+    p3 = collision.p1
+    p4 = collision.p2
+
+    pmax = max(p3, p4)
+    pmin = min(p3, p4)
+
+    p1 = sim.particles[pmin]
+    p2 = sim.particles[pmax]
+    print(p1, p2)
+
 
     list_at_time = [sim.t]
     list_at_time.append(p1.m)
@@ -91,11 +99,13 @@ def collision_merge_then_print(sim_pointer, collision):
     list_at_time.append(p1.vy)
     list_at_time.append(p1.vz)
 
+    sim.remove(p2) # remove the second particle with the higher index (p2) from the simulation
+
     with open(filename3, 'a') as file:
         writer = csv.writer(file)
         writer.writerow(list_at_time)
 
-    return 2  # remove the second particle (p2) from the simulation
+    return 0  # dont remove here , remove above
 
 
 # Create a rebound simulation
@@ -187,7 +197,7 @@ with open(filename4, 'w') as file:
     writer.writerow(header)
 
 ## Integrate for 100My time units
-for ik in range(1000001):
+for ik in range(101):
     sim.integrate(ik * 100.)
 
     # Will eject only one at a time
