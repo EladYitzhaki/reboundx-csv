@@ -50,6 +50,9 @@ filename4 = "{0}.eject.csv".format(filename0)
 
 # else:
 filename5 = "output.{0}.time{1}.csv".format(parameter,line_number*100)
+
+filename666 = "output.dump.time{0}".format(line_number * 100)
+
 with open(filename5, 'a') as file:
     if parameter == 'm':
         df = pd.read_csv(filename1)
@@ -65,49 +68,45 @@ with open(filename5, 'a') as file:
                     writer.writerow(data_point)
             # planet += 1
         del df
-    # if parameter == 'a':
-    #     df = pd.read_csv(filename2)
-    #     planet = 0
-    #     for element in range(len(df.columns)):
-    #         num = (element - 1)
-    #         if num % 6 == 0:
-    #             writer = csv.writer(file)
-    #             data_point = [df.iat[line_number, element]]
-    #             if np.isnan(data_point):
-    #                 continue
-    #             else:
-    #                 writer.writerow(data_point)
-    #     del df
-    # if parameter == 'e':
-    #     df = pd.read_csv(filename2)
-    #     planet = 0
-    #     for element in range(len(df.columns)):
-    #         num = (element - 2)
-    #         if num % 6 == 0:
-    #             writer = csv.writer(file)
-    #             data_point = [df.iat[line_number, element]]
-    #             writer.writerow(data_point)
-    #             if np.isnan(data_point):
-    #                 continue
-    #             else:
-    #                 writer.writerow(data_point)
-    #     del df
-    # if parameter == 'inc':
-    #     df = pd.read_csv(filename2)
-    #
-    #     for element in range(len(df.columns)):
-    #         num = (element - 3)
-    #         if num % 6 == 0:
-    #             writer = csv.writer(file)
-    #             data_point = [df.iat[line_number, element]]
-    #             if np.isnan(data_point):
-    #                 continue
-    #             else:
-    #                 writer.writerow(data_point)
-    #     del df
 
     if parameter == 'aei':
         # if line_number == '-1':
+        with open(filename1, 'rb') as f:
+            try:  # catch OSError in case of a one line file
+                f.seek(-2, os.SEEK_END)
+                while f.read(1) != b'\n':
+                    f.seek(-2, os.SEEK_CUR)
+            except OSError:
+                f.seek(0)
+            # print('file_number = ', file_number)
+            cart_last_line = f.readline().decode().split(',')
+            cart_last_line[-1]=cart_last_line[-1].split("\r")[0]
+            # print(cart_last_line)
+            cart_num_of_object = int(np.floor(len(cart_last_line) - 1) / 8) #start after the star in the 0 positions -1
+            cart_num_of_planets = cart_num_of_object -1
+            # print("num_of_planets: ", cart_num_of_planets)
+            N = 0
+            N = cart_num_of_planets
+            # for planet_index in range(cart_num_of_planets):
+                # print(cart_last_line[planet_index * 8 + 1])
+                # we don't want the sun only the planets
+                # if float(cart_last_line[(planet_index+1) * 8 + 1]) < 0.999:
+                #     N = N + 1
+
+            cart_planets = [[]] * N
+            print(len(cart_planets))
+            print(len(cart_last_line))
+            for planet_index in range(cart_num_of_planets):
+                # print(planet_index)
+              #  if float(cart_last_line[(planet_index+1) * 8 + 1])  < 0.999:
+                    print((planet_index+1) * 8 + 1)
+                    print((planet_index+1) * 8 + 1 + 2)
+                    cart_planets[planet_index]= ( cart_last_line[(planet_index+1) * 8 + 1:(planet_index+1) * 8 + 1 + 2])
+
+            for pp in cart_planets:
+                print(pp)
+
+
         with open(filename2, 'rb') as f:
             try:  # catch OSError in case of a one line file
                 f.seek(-2, os.SEEK_END)
@@ -129,10 +128,26 @@ with open(filename5, 'a') as file:
                 # print(planet_index)
                 if float(last_line[planet_index*6+1])>0:
                     planets[planet_index]=last_line[planet_index*6+1:planet_index*6+1+6]
+                    planets[planet_index].append(cart_planets[planet_index][0])
+                    planets[planet_index].append(cart_planets[planet_index][1])
+
+                else:
+                    dump = last_line[planet_index*6+1:planet_index*6+1+6]
+                    dump.append(cart_planets[planet_index][0])
+                    dump.append(cart_planets[planet_index][1])
+                    dump.append(file_number)
+                    dump.append(time)
+
+                    with open(filename666, 'a') as file2:
+                        writer = csv.writer(file2)
+                        writer.writerow(dump)
                     # N=N+1
-                    # print(planets)
+                    print('dump= ',dump)
             for planet in planets:
-                print(planet[0])
+                print(planet)
+            for planet in cart_planets:
+                print(planet)
+            # todo here add the m hash to the orbital element BEFORE DAMPING UNBOUND PARTICALS
             # sorting the planets array by the semi major axis
             sorted_planets= sorted(planets, key=lambda orbital_elements: float(orbital_elements[0])) #reverse=True
             # print(planets)
@@ -147,24 +162,15 @@ with open(filename5, 'a') as file:
 
             # print(new_last_line)
             #flat_list = list(np.concatenate(new_last_line).flat)
-                last_line = sum(new_last_line, [time])
+                last_line = sum(new_last_line, [file_number, time])
             # print(last_line)
 
-            filename6 = "output.{1}p.time{0}.V4.csv".format(line_number * 100,N)
+            filename6 = "output.{1}p.time{0}.V5.csv".format(line_number * 100,N)
 
-            # planet = 0
-            # # print(len(last_line))
-            # if len(last_line) == 1+6:
-            #     filename6 = "output.1p.time{0}.csv".format(line_number*100)
-            # elif len(last_line) == 1+2*6:
-            #     filename6 = "output.2p.time{0}.csv".format(line_number*100)
-            # elif len(last_line) == 1+3*6:
-            #     filename6 = "output.3p.time{0}.csv".format(line_number*100)
-            # else:
-            #     filename6 = "output.more_p.time{0}.csv".format(line_number * 100)
             with open(filename6, 'a') as file2:
                 writer = csv.writer(file2)
                 writer.writerow(last_line)
+
 
 
             # for element in range(len(last_line)):
