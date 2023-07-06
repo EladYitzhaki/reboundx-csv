@@ -80,6 +80,9 @@ def collision_merge_then_print(sim_pointer, collision):
     list_at_time.append(p2.vy)
     list_at_time.append(p2.vz)
 
+    print(p1.r)
+    print(p2.r)
+
     invmass = (1.0 / (p1.m + p2.m))
     p1.vx = (p1.vx * p1.m + p2.vx * p2.m) * invmass
     p1.vy = (p1.vy * p1.m + p2.vy * p2.m) * invmass
@@ -90,6 +93,7 @@ def collision_merge_then_print(sim_pointer, collision):
     p1.m = p1.m + p2.m
     p1.r = np.power(p1.r * p1.r * p1.r + p2.r * p2.r * p2.r, 1 / 3)
 
+
     list_at_time.append(p1.m)
     list_at_time.append(p1.hash.value)
     list_at_time.append(p1.x)
@@ -98,8 +102,13 @@ def collision_merge_then_print(sim_pointer, collision):
     list_at_time.append(p1.vx)
     list_at_time.append(p1.vy)
     list_at_time.append(p1.vz)
+# TODO FIX IT TO THE POINTER VALUE
+    sim.remove(pmax) # remove the second particle with the higher index (p2) from the simulation
+    print(p1.r)
 
-    sim.remove(p2) # remove the second particle with the higher index (p2) from the simulation
+    orbs = sim.calculate_orbits(primary=sim.particles[0])
+    for o in orbs:
+        print(o)
 
     with open(filename3, 'a') as file:
         writer = csv.writer(file)
@@ -123,7 +132,7 @@ sim.integrator = "ias15"
 sim.move_to_com()
 
 # Collision
-sim.collision = "direct"
+sim.collision = "line"
 sim.collision_resolve = collision_merge_then_print
 
 # Ejection inside the iteretions
@@ -197,7 +206,7 @@ with open(filename4, 'w') as file:
     writer.writerow(header)
 
 ## Integrate for 100My time units
-for ik in range(101):
+for ik in range(1000001):
     sim.integrate(ik * 100.)
 
     # Will eject only one at a time

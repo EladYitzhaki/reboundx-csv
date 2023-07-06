@@ -4,12 +4,11 @@ import numpy as np
 import os
 import sys
 import csv
-from rebound import hash as h
 
 full_filename = sys.argv[1] # rebound bin file
 filename = os.path.splitext(full_filename)[0]
 
-# output 1: cartisian coordinates, 2: orbital elements, 3: collisions, 4:ejection.
+# output 1: cartesian coordinates, 2: orbital elements, 3: collisions, 4:ejection.
 filename1 = "{0}.cart.csv".format(filename)
 filename2 = "{0}.orb.csv".format(filename)
 filename3 = "{0}.coll.csv".format(filename)
@@ -98,7 +97,7 @@ def collision_merge_then_print(sim_pointer, collision):
     list_at_time.append(p1.vy)
     list_at_time.append(p1.vz)
 
-    sim.remove(p2) # remove the second particle with the higher index (p2) from the simulation
+    sim.remove(pmax) # remove the second particle with the higher index (p2) from the simulation
 
     with open(filename3, 'a') as file:
         writer = csv.writer(file)
@@ -122,10 +121,10 @@ sim.integrator = "ias15"
 sim.move_to_com()
 
 # Collision
-sim.collision = "direct"
+sim.collision = "line" #"direct" did promlems
 sim.collision_resolve = collision_merge_then_print
 
-# Ejection inside the iteretions
+# Ejection inside the iterations
 orbs = sim.calculate_orbits(primary=sim.particles[0])
 
 # Tides radius
@@ -140,7 +139,7 @@ ps = sim.particles
 # r= (3*m/4*pi*rho)^(1/3)
 # ps[0].r = 0.00465 # AU for the sun
 ps[0].r = np.power((3/(4*np.pi)*ps[0].m/rho_sun), 1/3)
-# tctl_tau was 0.04. here 15.5 years for the sun as in eq 8 in https://arxiv.org/pdf/2101.12277.pdf, insted of 1 year
+# tctl_tau was 0.04. here 15.5 years for the sun as in eq 8 in https://arxiv.org/pdf/2101.12277.pdf, instead of 1 year
 
 for ii in range(len(orbs)):
     p = orbs[ii]
@@ -165,7 +164,7 @@ for ij in range(len(orbs)):
     ps[ij+1].params["tctl_tau"] = 1 / (2 * planet_Q * ps[ij+1].n)
 
 # Integrate for 10My and save every 100y
-# write to csv file separated colloums
+# write to csv file separated columns
 
 header = ["time"]
 pp = sim.particles
@@ -225,10 +224,10 @@ for ik in range(1000001):
             # print("particle {} is unbound".format(jj + 1))
             p0 = sim.particles[0]
             p1 = sim.particles[jj + 1]
-            dp = p0 - p1  # Calculates the coponentwise difference between particles
+            dp = p0 - p1  # Calculates the component wise difference between particles
             distance = np.sqrt(dp.x * dp.x + dp.y * dp.y + dp.z * dp.z)
             if distance > 1000:
-                # print("the unbound particle is {0:5.2f}AU apart of the main star".format(distance))
+                # print("the unbound particle is {0:5.2f}AU apart from the main star".format(distance))
                 list_at_time = [sim.t]
                 list_at_time.append(p1.m)
                 list_at_time.append(distance)
